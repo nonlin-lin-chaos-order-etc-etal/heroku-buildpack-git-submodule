@@ -55,18 +55,39 @@ git remote add origin "$GIT_REPO_URL"
 mkdir -p ~/.ssh
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2> /dev/null
 
-eval `ssh-agent`
+#eval `ssh-agent`
+
+cp "$ENV_DIR/GIT_SSH_KEY1" ~/.ssh/id_rsa1
+echo >> ~/.ssh/id_rsa1
+chmod 600 ~/.ssh/id_rsa1
+#ssh-add ~/.ssh/id_rsa1
+cp "$ENV_DIR/GIT_SSH_KEY2" ~/.ssh/id_rsa2
+echo >> ~/.ssh/id_rsa2
+chmod 600 ~/.ssh/id_rsa2
+#ssh-add ~/.ssh/id_rsa2
+cp "$ENV_DIR/GIT_SSH_KEY3" ~/.ssh/id_rsa3
+echo >> ~/.ssh/id_rsa3
+chmod 600 ~/.ssh/id_rsa3
+#ssh-add ~/.ssh/id_rsa3
+echo "-----> Installed SSH keys for submodules repos"
 
 # MONSTRUOZ1 repo
 cp "$ENV_DIR/GIT_SSH_KEY4" ~/.ssh/id_rsa4
 echo >> ~/.ssh/id_rsa4
 chmod 600 ~/.ssh/id_rsa4
-ssh-add ~/.ssh/id_rsa4
+#ssh-add ~/.ssh/id_rsa4
 
 # ignore/hide ssh warnings
-echo "Host *" >> ~/.ssh/config
+#Host somealiasname somehost.example.org
+#    HostName somehost.example.org
+echo "Host github.com" >> ~/.ssh/config
 echo "   StrictHostKeyChecking no" >> ~/.ssh/config
 echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
+echo "   IdentityFile ~/.ssh/id_rsa1" >> ~/.ssh/config
+echo "   IdentityFile ~/.ssh/id_rsa2" >> ~/.ssh/config
+echo "   IdentityFile ~/.ssh/id_rsa3" >> ~/.ssh/config
+echo "   IdentityFile ~/.ssh/id_rsa4" >> ~/.ssh/config
+echo "   User nonlin-lin-chaos-order-etc-etal" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
 
 echo "-----> Installed SSH keys for main repo"
@@ -75,22 +96,6 @@ echo "-----> Installed SSH keys for main repo"
 git fetch -q --depth 1 origin -a
 git checkout -q ${SOURCE_VERSION:-master}
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
-
-eval `ssh-agent`
-
-cp "$ENV_DIR/GIT_SSH_KEY1" ~/.ssh/id_rsa1
-echo >> ~/.ssh/id_rsa1
-chmod 600 ~/.ssh/id_rsa1
-ssh-add ~/.ssh/id_rsa1
-cp "$ENV_DIR/GIT_SSH_KEY2" ~/.ssh/id_rsa2
-echo >> ~/.ssh/id_rsa2
-chmod 600 ~/.ssh/id_rsa2
-ssh-add ~/.ssh/id_rsa2
-cp "$ENV_DIR/GIT_SSH_KEY3" ~/.ssh/id_rsa3
-echo >> ~/.ssh/id_rsa3
-chmod 600 ~/.ssh/id_rsa3
-ssh-add ~/.ssh/id_rsa3
-echo "-----> Installed SSH keys for submodules repos, checking out..."
 
 # initialize all the submodules
 git submodule -q update --init --recursive
