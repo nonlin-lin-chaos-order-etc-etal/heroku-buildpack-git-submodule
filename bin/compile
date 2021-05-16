@@ -54,6 +54,7 @@ git remote add origin "$GIT_REPO_URL"
 # install the ssh key
 mkdir -p ~/.ssh
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2> /dev/null
+
 eval `ssh-agent`
 
 # MONSTRUOZ1 repo
@@ -74,6 +75,8 @@ echo "-----> Installed SSH keys for main repo"
 git fetch -q --depth 1 origin -a
 git checkout -q ${SOURCE_VERSION:-master}
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
+
+eval `ssh-agent`
 
 cp "$ENV_DIR/GIT_SSH_KEY1" ~/.ssh/id_rsa1
 echo >> ~/.ssh/id_rsa1
