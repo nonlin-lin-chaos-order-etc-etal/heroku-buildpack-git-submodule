@@ -83,11 +83,11 @@ chmod 600 ~/.ssh/id_rsa4
 echo "Host github.com" >> ~/.ssh/config
 echo "   StrictHostKeyChecking no" >> ~/.ssh/config
 echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
+echo "   User git" >> ~/.ssh/config
 echo "   IdentityFile ~/.ssh/id_rsa1" >> ~/.ssh/config
 echo "   IdentityFile ~/.ssh/id_rsa2" >> ~/.ssh/config
 echo "   IdentityFile ~/.ssh/id_rsa3" >> ~/.ssh/config
 echo "   IdentityFile ~/.ssh/id_rsa4" >> ~/.ssh/config
-echo "   User nonlin-lin-chaos-order-etc-etal" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
 
 echo "-----> Installed SSH keys for main repo"
