@@ -10,6 +10,7 @@ GIT_REPO_URL=$(<"$ENV_DIR/GIT_REPO_URL")
 GIT_SSH_KEY1=$(<"$ENV_DIR/GIT_SSH_KEY1")
 GIT_SSH_KEY2=$(<"$ENV_DIR/GIT_SSH_KEY2")
 GIT_SSH_KEY3=$(<"$ENV_DIR/GIT_SSH_KEY3")
+GIT_SSH_KEY4=$(<"$ENV_DIR/GIT_SSH_KEY4")
 
 if [[ -z $GIT_REPO_URL ]]; then
     echo "Did you forget to set GIT_REPO_URL?"
@@ -26,6 +27,10 @@ if [[ -z $GIT_SSH_KEY2 ]]; then
 fi
 if [[ -z $GIT_SSH_KEY3 ]]; then
     echo "Did you forget to set GIT_SSH_KEY3?"
+    exit 1
+fi
+if [[ -z $GIT_SSH_KEY4 ]]; then
+    echo "Did you forget to set GIT_SSH_KEY4?"
     exit 1
 fi
 
@@ -62,20 +67,26 @@ cp "$ENV_DIR/GIT_SSH_KEY3" ~/.ssh/id_rsa3
 echo >> ~/.ssh/id_rsa3
 chmod 600 ~/.ssh/id_rsa3
 ssh-add ~/.ssh/id_rsa3
+cp "$ENV_DIR/GIT_SSH_KEY4" ~/.ssh/id_rsa4
+echo >> ~/.ssh/id_rsa4
+chmod 600 ~/.ssh/id_rsa4
+ssh-add ~/.ssh/id_rsa4
 
 # ignore/hide ssh warnings
 echo "Host *" >> ~/.ssh/config
 echo "   StrictHostKeyChecking no" >> ~/.ssh/config
 echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
-echo "-----> Installed SSH key from GIT_SSH_KEY"
+
+echo "-----> Installed SSH keys"
 
 # checkout the revision that's being deployed
-git fetch -q --depth 1 origin -a > /dev/null
-git checkout -q ${SOURCE_VERSION:-master} > /dev/null
+git fetch -q --depth 1 origin -a
+git checkout -q ${SOURCE_VERSION:-master}
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
 
 # initialize all the submodules
 git submodule -q update --init --recursive
 echo "-----> Checked out all submodules"
 git submodule status | sed 's/^/       * /'
+echo "-----> Submodules tasks completed"
