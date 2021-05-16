@@ -108,18 +108,22 @@ echo "   HostName github.com" >> ~/.ssh/config
 echo "   StrictHostKeyChecking no" >> ~/.ssh/config
 echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
 echo "   User git" >> ~/.ssh/config
-echo "   IdentityFile ~/.ssh/id_rsa2" >> ~/.ssh/config
+echo "   IdentityFile ~/.ssh/id_rsa3" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
 
 echo "-----> Installed SSH keys for main repo"
 
 # checkout the revision that's being deployed
+echo "git fetch..."
 git fetch -q --depth 1 origin -a
+echo "git checkout..."
 git checkout -q ${SOURCE_VERSION:-master}
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
 
 # initialize all the submodules
+echo "git submodule -q update --init --recursive"
 git submodule -q update --init --recursive
 echo "-----> Checked out all submodules"
+echo "git submodule status | sed 's/^/       * /'"
 git submodule status | sed 's/^/       * /'
 echo "-----> Submodules tasks completed"
