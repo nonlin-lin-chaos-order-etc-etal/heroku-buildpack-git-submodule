@@ -1,19 +1,31 @@
 #!/bin/bash
 
+echo "-----> Checking out all submodules..."
+
 APP_DIR="$1"
 ENV_DIR="$3"
 
 # load required environment variables
 GIT_REPO_URL=$(<"$ENV_DIR/GIT_REPO_URL")
-GIT_SSH_KEY=$(<"$ENV_DIR/GIT_SSH_KEY")
+GIT_SSH_KEY1=$(<"$ENV_DIR/GIT_SSH_KEY1")
+GIT_SSH_KEY2=$(<"$ENV_DIR/GIT_SSH_KEY2")
+GIT_SSH_KEY3=$(<"$ENV_DIR/GIT_SSH_KEY3")
 
 if [[ -z $GIT_REPO_URL ]]; then
     echo "Did you forget to set GIT_REPO_URL?"
     exit 1
 fi
 
-if [[ -z $GIT_SSH_KEY ]]; then
-    echo "Did you forget to set GIT_SSH_KEY?"
+if [[ -z $GIT_SSH_KEY1 ]]; then
+    echo "Did you forget to set GIT_SSH_KEY1?"
+    exit 1
+fi
+if [[ -z $GIT_SSH_KEY2 ]]; then
+    echo "Did you forget to set GIT_SSH_KEY2?"
+    exit 1
+fi
+if [[ -z $GIT_SSH_KEY3 ]]; then
+    echo "Did you forget to set GIT_SSH_KEY3?"
     exit 1
 fi
 
@@ -37,9 +49,19 @@ git remote add origin "$GIT_REPO_URL"
 # install the ssh key
 mkdir -p ~/.ssh
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2> /dev/null
-cp "$ENV_DIR/GIT_SSH_KEY" ~/.ssh/id_rsa
-echo >> ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
+eval `ssh-agent`
+cp "$ENV_DIR/GIT_SSH_KEY1" ~/.ssh/id_rsa1
+echo >> ~/.ssh/id_rsa1
+chmod 600 ~/.ssh/id_rsa1
+ssh-add ~/.ssh/id_rsa1
+cp "$ENV_DIR/GIT_SSH_KEY2" ~/.ssh/id_rsa2
+echo >> ~/.ssh/id_rsa2
+chmod 600 ~/.ssh/id_rsa2
+ssh-add ~/.ssh/id_rsa2
+cp "$ENV_DIR/GIT_SSH_KEY3" ~/.ssh/id_rsa3
+echo >> ~/.ssh/id_rsa3
+chmod 600 ~/.ssh/id_rsa3
+ssh-add ~/.ssh/id_rsa3
 
 # ignore/hide ssh warnings
 echo "Host *" >> ~/.ssh/config
