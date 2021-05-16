@@ -55,6 +55,26 @@ git remote add origin "$GIT_REPO_URL"
 mkdir -p ~/.ssh
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2> /dev/null
 eval `ssh-agent`
+
+# MONSTRUOZ1 repo
+cp "$ENV_DIR/GIT_SSH_KEY4" ~/.ssh/id_rsa4
+echo >> ~/.ssh/id_rsa4
+chmod 600 ~/.ssh/id_rsa4
+ssh-add ~/.ssh/id_rsa4
+
+# ignore/hide ssh warnings
+echo "Host *" >> ~/.ssh/config
+echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
+echo "   LogLevel ERROR" >> ~/.ssh/config
+
+echo "-----> Installed SSH keys for main repo"
+
+# checkout the revision that's being deployed
+git fetch -q --depth 1 origin -a
+git checkout -q ${SOURCE_VERSION:-master}
+echo "-----> Fetched shallow history from $GIT_REPO_URL"
+
 cp "$ENV_DIR/GIT_SSH_KEY1" ~/.ssh/id_rsa1
 echo >> ~/.ssh/id_rsa1
 chmod 600 ~/.ssh/id_rsa1
@@ -67,23 +87,7 @@ cp "$ENV_DIR/GIT_SSH_KEY3" ~/.ssh/id_rsa3
 echo >> ~/.ssh/id_rsa3
 chmod 600 ~/.ssh/id_rsa3
 ssh-add ~/.ssh/id_rsa3
-cp "$ENV_DIR/GIT_SSH_KEY4" ~/.ssh/id_rsa4
-echo >> ~/.ssh/id_rsa4
-chmod 600 ~/.ssh/id_rsa4
-ssh-add ~/.ssh/id_rsa4
-
-# ignore/hide ssh warnings
-echo "Host *" >> ~/.ssh/config
-echo "   StrictHostKeyChecking no" >> ~/.ssh/config
-echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
-echo "   LogLevel ERROR" >> ~/.ssh/config
-
-echo "-----> Installed SSH keys"
-
-# checkout the revision that's being deployed
-git fetch -q --depth 1 origin -a
-git checkout -q ${SOURCE_VERSION:-master}
-echo "-----> Fetched shallow history from $GIT_REPO_URL"
+echo "-----> Installed SSH keys for submodules repos, checking out..."
 
 # initialize all the submodules
 git submodule -q update --init --recursive
