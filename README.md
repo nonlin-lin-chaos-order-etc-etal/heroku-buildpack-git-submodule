@@ -27,6 +27,20 @@ This buildpack takes a different approach and makes using the native Git way of 
         * ...
         * `heroku config:set GIT_SSH_KEY5="$(cat /home/user/.ssh/fintgbot-deploy-sshkey-from-heroku-MONSTRUOZ1-privatekey.dat)" --app=equinoxstaging`
 
+```
+ls ~/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair* ~/.ssh/fintgbot-deploy-sshkey-from-heroku-MONSTRUOZ1-privatekey.dat* -1
+/home/user/.ssh/fintgbot-deploy-sshkey-from-heroku-MONSTRUOZ1-privatekey.dat
+/home/user/.ssh/fintgbot-deploy-sshkey-from-heroku-MONSTRUOZ1-privatekey.dat.pub
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair_moneyprjdocs
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair_moneyprjdocs.pub
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair_MONSTRUOZ1
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair_MONSTRUOZ1.pub
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair_nlww1
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair_nlww1.pub
+/home/user/.ssh/heroku_monstruoz1_nonlin-lin-github-private-repos-access-ssh-keypair.pub
+```
+
 4. Enjoy the ride :)
 
 ## Limitations
