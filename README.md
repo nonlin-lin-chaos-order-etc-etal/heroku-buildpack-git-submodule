@@ -23,7 +23,9 @@ This buildpack takes a different approach and makes using the native Git way of 
 
 3. Set `GIT_SSH_KEY` to the private SSH key that can access both your repo and its submodules:
 
-        heroku config:set GIT_SSH_KEY="$(cat ~/.ssh/id_rsa)"
+        * `heroku config:set GIT_SSH_KEY1="$(cat ~/.ssh/id_rsa1)"`
+        * ...
+        * `heroku config:set GIT_SSH_KEY5="$(cat /home/user/.ssh/fintgbot-deploy-sshkey-from-heroku-MONSTRUOZ1-privatekey.dat)" --app=equinoxstaging`
 
 4. Enjoy the ride :)
 
